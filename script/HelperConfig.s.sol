@@ -3,7 +3,7 @@ pragma solidity ^0.8.18;
 
 import {Script} from "forge-std/Script.sol";
 import {MockV3Aggregator} from "../test/mocks/MockV3Aggregator.sol";
-import {ERC20Mock} from "@openzeppelin/contracts/mocks/ERC20Mock.sol";
+import {ERC20Mock} from "@openzeppelin/contracts/mocks/token/ERC20Mock.sol";
 
 contract HelperConfig is Script {
     struct NetworkConfig {
@@ -12,7 +12,7 @@ contract HelperConfig is Script {
         address weth;
         address wbtc;
         uint256 deployerKey;
-    };
+    }
 
     uint8 public constant DECIMALS = 8;
     int256 public constant ETH_USD_PRICE = 2000e8;
@@ -47,10 +47,10 @@ contract HelperConfig is Script {
 
         vm.startBroadcast();
         MockV3Aggregator ethUsdAggregator = new MockV3Aggregator(DECIMALS, ETH_USD_PRICE);
-        ERC20Mock wethMock = new ERC20Mock("WETH" , "WETH" , msg.sender , 1000e8); 
+        ERC20Mock wethMock = new ERC20Mock(); 
 
         MockV3Aggregator btcUsdAggregator = new MockV3Aggregator(DECIMALS, BTC_USD_PRICE);
-        ERC20Mock wbtcMock = new ERC20Mock("WBTC" , "WBTC" , msg.sender , 1000e8);         
+        ERC20Mock wbtcMock = new ERC20Mock();         
 
         vm.stopBroadcast();
 

@@ -54,7 +54,7 @@ contract DSCEngine is ReentrancyGuard{
 
 
     /*** Events ***/
-    event CollateralDeposited(address indexed user, address indexed token, uint256 indexed amount);
+    event CollateralDeposited(address indexed user, address indexed token, uint256 amount);
     event CollateralRedeemed(address indexed redeemedFrom, address indexed redeemedTo, address indexed token, uint256 amount);
 
 
@@ -83,7 +83,7 @@ contract DSCEngine is ReentrancyGuard{
         }
         for(uint256 i = 0 ; i < tokenAddress.length ; i++){
             s_priceFeeds[tokenAddress[i]] = priceFeedAddress[i];
-            s_collateralTokens.push(priceFeedAddress[i]);
+            s_collateralTokens.push(tokenAddress[i]);
         }
         i_dsc = DecentralizedStableCoin(dscAddress);
     }
@@ -268,6 +268,10 @@ contract DSCEngine is ReentrancyGuard{
         // total Collateral value
         (uint256 totalDscMinted, uint256 collateralValueInUsd) = _getAccountInformation(user);
 
+        if(totalDscMinted == 0){
+            return type(uint256).max;
+        }
+
         uint256 collateralAdjustedForThreshold = (collateralValueInUsd * LIQUIDATION_THRESHOLD) / LIQUIDATION_PRECISION;
 
         /**
@@ -326,4 +330,12 @@ contract DSCEngine is ReentrancyGuard{
         return ((useAmountInWei * PRECISION) / (uint256(price) * ADDITIONAL_FEED_PRECISION));
     }
 
+    function getAccountInformation(address user) external view returns (uint256 totalDscMinted, uint256 collateralValueInUsd){
+        (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
+    }
+
+    /*** Getter function  ***/
+    function getDepositedCollateral(address user, address collateralToken) external view returns (uint256) {
+        return s_collateralDeposited[user][collateralToken];
+    }    
 }

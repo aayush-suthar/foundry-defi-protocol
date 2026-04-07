@@ -7,7 +7,7 @@ remappings = [
     "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/"
 ]
 
-[invariants]
+[invariant]
 runs = 128  # number of different tests
 depth = 128 # depth of function calling
 fail_on_revert = true

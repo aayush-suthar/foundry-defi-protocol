@@ -6,4 +6,12 @@ remappings = [
     "@chainlink/contracts/=lib/chainlink-brownie-contracts/contracts/",
     "@openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/"
 ]
+
+[invariants]
+runs = 128  # number of different tests
+depth = 128 # depth of function calling
+fail_on_revert = true
+# pros : we can write open testing and write minimal handler testing that aren't perfect
+# cons : hard to say function calls are actually making sense
+
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

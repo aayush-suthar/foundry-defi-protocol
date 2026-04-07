@@ -7,3 +7,5 @@
     1. wETH --> w: wrapped --> ERC20 version
     2. wBTC
 
+1. what are our invariants/properties?
+    invariants : properties of our system that should always hold 

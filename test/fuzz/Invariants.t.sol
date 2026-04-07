@@ -9,7 +9,7 @@
 //SPDX-Licenese-Identifier: MIT
 pragma solidity ^0.8.18;
 
-import {Test} from "forge-std/Test.sol";
+import {Test, console} from "forge-std/Test.sol";
 import {StdInvariant} from "forge-std/StdInvariant.sol";
 import {DeployDSC} from "../../script/DeployDSC.s.sol";
 import {DSCEngine} from "../../src/DSCEngine.sol";
@@ -37,6 +37,8 @@ contract InvariantTest is StdInvariant, Test{
         // hey, don't call redeemCollateral, unless there is collateral to redeem
     }
 
+    // right now it's failing
+    // need some more refactors on handlers
     function invariant_protocalMustHaveMoreValueThanTotalSupply() public {
         // get the value of all the collateral in the protocol
         // compare it to all the debt (dsc)
@@ -47,8 +49,15 @@ contract InvariantTest is StdInvariant, Test{
         uint256 wethValue = engine.getUsdValue(weth, totalWethDeposited);
         uint256 wbtcValue = engine.getUsdValue(wbtc, totalWbtcDeposited);
 
+        console.log("Times mint called: ", handler.timeMintIsCalled());
         assert(wethValue + wbtcValue >= totalSupply);
 
     }
+
+    // function invariant_getterShouldNotRevert() public {
+    //     /*...
+    //     ALL THE GETTER FUNCTIONs
+    //      ...*/
+    // }
 
 }

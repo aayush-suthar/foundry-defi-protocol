@@ -330,12 +330,21 @@ contract DSCEngine is ReentrancyGuard{
         return ((useAmountInWei * PRECISION) / (uint256(price) * ADDITIONAL_FEED_PRECISION));
     }
 
-    function getAccountInformation(address user) external view returns (uint256 totalDscMinted, uint256 collateralValueInUsd){
-        (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
-    }
-
     /*** Getter function  ***/
     function getDepositedCollateral(address user, address collateralToken) external view returns (uint256) {
         return s_collateralDeposited[user][collateralToken];
-    }    
+    }   
+
+    function getCollateralTokens() external view returns(address[] memory) {
+        return s_collateralTokens;
+    }
+
+    function getCollateralBalanceOfUser(address user, address token) external view returns (uint256) {
+        return s_collateralDeposited[user][token];
+    }
+
+    function getAccountInformation(address user) external view returns(uint256 totalDscMinted, uint256 collateralValueInUsd){
+        (totalDscMinted, collateralValueInUsd) = _getAccountInformation(user);
+    }
+
 }
